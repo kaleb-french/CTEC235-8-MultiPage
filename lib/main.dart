@@ -80,13 +80,21 @@ class MissionControl extends StatelessWidget {
             title: Text(planet.name),
             subtitle: Text(planet.type),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () {
-              Navigator.push(
+            onTap: () async {
+              final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => PlanetDetail(planet: planet),
                 ),
               );
+
+              if (!context.mounted) return;
+
+              if (result != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(result)),
+                );
+              }
             },
           );
         },
@@ -113,6 +121,7 @@ class PlanetDetail extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
             Text(
               planet.type,
@@ -122,6 +131,16 @@ class PlanetDetail extends StatelessWidget {
             Text(
               planet.description,
               style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(
+                  context,
+                  'You visited ${planet.name}!',
+                );
+              },
+              child: const Text('Confirm Visit'),
             ),
           ],
         ),
