@@ -9,3 +9,6 @@ A ListView.Builder can be better than a basic ListView or Column because the bui
 
 Phase 3-
 The round-trip nav flow is made possible by the Async await keyword. Await tells the program that the variable its declared in is being returned as a "future," meaning it will continue to run but this is a place holder for return of the route that its being used in. The returning value is returned via the Navigator.pop() as a parameter and the result varible is then given the value.
+
+Phase 4-
+The web style urls used by the context.push allows better and more visible routes with the ability to pass parameters through urls like with html. With routes such as /planet/:id all of the planets can be visited by simply changing the :id thats pushed.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const CosmicExplorerApp());
@@ -51,13 +52,35 @@ class PlanetCatalog {
   ];
 }
 
+final GoRouter myRouter = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const MissionControl(),
+    ),
+    GoRoute(
+      path: '/docking-bay',
+      builder: (context, state) => const DockingBay(),
+    ),
+    GoRoute(
+      path: '/planet/:id',
+      builder: (context, state) {
+        final id = int.parse(state.pathParameters['id']!);
+        final planet = PlanetCatalog.planets[id];
+
+        return PlanetDetail(planet: planet);
+      },
+    ),
+  ],
+);
+
 class CosmicExplorerApp extends StatelessWidget {
   const CosmicExplorerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MissionControl(),
+    return MaterialApp.router(
+      routerConfig: myRouter,
     );
   }
 }
@@ -143,6 +166,27 @@ class PlanetDetail extends StatelessWidget {
               child: const Text('Confirm Visit'),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class DockingBay extends StatelessWidget {
+  const DockingBay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Docking Bay Telemetry'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            context.go('/');
+          },
+          child: const Text('Return to Mission Control'),
         ),
       ),
     );
