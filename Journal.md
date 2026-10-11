@@ -12,3 +12,6 @@ The round-trip nav flow is made possible by the Async await keyword. Await tells
 
 Phase 4-
 The web style urls used by the context.push allows better and more visible routes with the ability to pass parameters through urls like with html. With routes such as /planet/:id all of the planets can be visited by simply changing the :id thats pushed.
+
+Phase 5-
+After code review noticed my drawer was missing. I think my son deleted, should lock my pc in the future. fixed that, all tests came back good. AI code review releaved that even though everthing was working I hadn't migrated my ListTile from Navigator.push to context.push and context.pop.

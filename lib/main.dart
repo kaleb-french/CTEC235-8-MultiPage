@@ -94,6 +94,44 @@ class MissionControl extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Cosmic Explorer - Mission Control'),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  'IEA Command Systems',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Mission Control'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                context.go('/');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.dock),
+              title: const Text('Docking Bay'),
+              onTap: () {
+                Navigator.pop(context); // Close drawer
+                context.go('/docking-bay');
+              },
+            ),
+          ],
+        ),
+      ),
       body: ListView.builder(
         itemCount: PlanetCatalog.planets.length,
         itemBuilder: (context, index) {
@@ -104,11 +142,8 @@ class MissionControl extends StatelessWidget {
             subtitle: Text(planet.type),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlanetDetail(planet: planet),
-                ),
+              final result = await context.push<String>(
+                '/planet/$index'
               );
 
               if (!context.mounted) return;
@@ -158,8 +193,7 @@ class PlanetDetail extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(
-                  context,
+                context.pop(
                   'You visited ${planet.name}!',
                 );
               },
